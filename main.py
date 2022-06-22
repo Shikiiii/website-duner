@@ -13,7 +13,6 @@ app.mount(
 
 templates = Jinja2Templates(directory="html")
 
-
 @app.get("/")
 async def root(request: Request):
     return templates.TemplateResponse(
@@ -52,18 +51,38 @@ async def completed(request: Request):
 
 # REQUESTS
 @app.post("/usercheckip")
-async def root(request: Request):
-    # Check user's ip information if it exists in the database upon visiting home page. If not, add to database.
+async def usercheckip(request: Request, ip: str):
+    """
+    Check user's ip information if it exists in the database upon visiting home page. If not, add to database.
+    :param request:
+    :param ip: String containing ip address.
+    """
     pass
 
 @app.post("/addtocart")
-async def root(request: Request):
-    # Add items to user's cart.
+async def addtocart(request: Request, item: dict):
+    """
+    Add an item to a user's cart.
+    :param request:
+    :param item: Dict containing item information:
+    {
+        "IP": "ip",
+        "ITEM": "item"
+    }
+    """
     pass
 
 @app.post("/removefromcart")
-async def root(request: Request):
-    # Remove items from user's cart.
+async def removefromcart(request: Request, item: dict):
+    """
+    Remove an item from a user's cart.
+    :param request:
+    :param item: Dict containing item information:
+    {
+        "IP": "ip",
+        "ITEM": "item"
+    }
+    """
     pass
 
 
@@ -71,4 +90,9 @@ async def root(request: Request):
 
 @app.exception_handler(404)
 async def custom_404_handler(_, __):
+    """
+    Handles 404 errors.
+    :param _:
+    :param __:
+    """
     return HTMLResponse(str(open("notfound.html").read()), status_code=404)
