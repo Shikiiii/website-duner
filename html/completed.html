@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width-device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RandomShop</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/fontawesome.min.css">
+</head>
+<body>
+
+<div class="header">
+    <div class="container_orderpage">
+    <div class="navbar">
+        <div class="logo">
+        <img src="{{ url_for('static', path='images/logo.jpg') }}" width="150px">
+     </div>
+     <nav>
+         <ul id="MenuItems">
+             <li><a href="http://127.0.0.1:8000/">Home</a></li>
+             <li><a href="http://127.0.0.1:8000/order">Combinator</a></li>
+             <li><a href="http://127.0.0.1:8000/cart">Order</a></li>
+         </ul>
+     </nav>
+     <a href="http://127.0.0.1:8000/cart"><img src="{{ url_for('static', path='images/cart.jpg') }}" width="30px" height="30px"></a>
+     <img src="{{ url_for('static', path='images/menu-icon-png-3-lines-11552728985kzvoymuey0.png') }}" class="menu-icon" onclick="menutoggle()">
+    </div>
+        <br><br><br><br><br><br><br>
+        <center><h1 style="font-size: 50px;">Поръчката е приета.</h1></center>
+        <center><h3>Благодаря за парите.</h3></center>
+
+    </body>
+    </html>

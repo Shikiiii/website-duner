@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width-device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RandomShop</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/fontawesome.min.css">
+</head>
+<body>
+
+<div class="header">
+    <div class="container">
+    <div class="navbar">
+        <div class="logo">
+        <img src="{{ url_for('static', path='images/logo.jpg') }}" width="150px">
+     </div>
+     <nav>
+         <ul id="MenuItems">
+             <li><a href="http://127.0.0.1:8000/">Home</a></li>
+             <li><a href="http://127.0.0.1:8000/order">Combinator</a></li>
+             <li><a href="http://127.0.0.1:8000/cart">Order</a></li>
+
+
+
+         </ul>
+     </nav>
+     <a href="http://127.0.0.1:8000/cart"><img src="{{ url_for('static', path='images/cart.jpg') }}" width="30px" height="30px"></a>
+     <img src="{{ url_for('static', path='images/menu-icon-png-3-lines-11552728985kzvoymuey0.png') }}" class="menu-icon" onclick="menutoggle()">
+    </div>
+    <div class="third-container">
+        <form action="http://127.0.0.1:8000/completed">
+
+
+            <div class="row">
+
+                <div class="col">
+                    <h3 class="title">Адрес за поръчка</h3>
+                    <div class="inputBox">
+                        <span>Пълно име:</span>
+                        <input type="text" placeholder="john Thoe" required>
+                    </div>
+                    <div class="inputBox">
+                        <span>Е-Майл:</span>
+                        <input type="email" placeholder="smth@smth.com" required>
+                    </div>
+                    <div class="inputBox">
+                        <span>Адрес:</span>
+                        <input type="text" placeholder="room - street - location" required>
+                    </div>
+                    <div class="inputBox">
+                        <span>Град:</span>
+                        <input type="text" placeholder="Sofia" required>
+                    </div>
+                    <div class="flex">
+                        <div class="inputBox">
+                            <span>Област:</span>
+                            <input type="text" placeholder="Sofia Oblast" required>
+                        </div>
+                        <div class="inputBox">
+                            <span>Пощенски код:</span>
+                            <input type="text" placeholder="123 321" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <h3 class="title">Начин на плащане</h3>
+                    <div class="inputBox">
+                        <span>Име:</span>
+                        <input type="text" placeholder="john Thoe" required>
+                    </div>
+                    <div class="inputBox">
+                        <span>Номер на картата:</span>
+                        <input type="text" placeholder="ХХХХ-ХХХХ-ХХХХ-ХХХХ" required>
+                    </div>
+                    <div class="inputBox">
+                        <span>Месец на изтичане:</span>
+                        <input type="text" placeholder="January" required>
+                    </div>
+                    <div class="inputBox">
+                        <span>Година на изтичане:</span>
+                        <input type="text" placeholder="2022" required>
+                    </div>
+                    <div class="flex">
+                        <div class="inputBox">
+                            <span>CVV:</span>
+                            <input type="text" placeholder="1144" required>
+                        </div>
+                        <div class="inputBox">
+                            <span>Карти:</span>
+                           <img src="{{ url_for('static', path='images/large-preview.jpg') }}">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <input type="submit" value="Завърши почърката" class="submit-btn">
+        </form>
+        </div>
+    </body>
+    </html>
