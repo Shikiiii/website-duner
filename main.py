@@ -87,7 +87,6 @@ async def removefromcart(request: Request, item: dict):
 
 
 # 404 HANDLER
-
 @app.exception_handler(404)
 async def custom_404_handler(_, __):
     """
