@@ -16,7 +16,7 @@
     <div class="container">
     <div class="navbar">
         <div class="logo">
-        <img src="{{ url_for('static', path='images/logo.jpg') }}" width="150px">
+        <img src="{{ url_for('static', path='images/logo.jpg') }}" width="150px" style="border: 3px solid #000;">
      </div>
      <nav>
          <ul id="MenuItems">
@@ -32,7 +32,7 @@
      <img src="{{ url_for('static', path='images/menu-icon-png-3-lines-11552728985kzvoymuey0.png') }}" class="menu-icon" onclick="menutoggle()">
     </div>
     <div class="third-container">
-        <form action="http://127.0.0.1:8000/completed">
+        <form action="">
 
 
             <div class="row">
@@ -41,28 +41,28 @@
                     <h3 class="title">Адрес за поръчка</h3>
                     <div class="inputBox">
                         <span>Пълно име:</span>
-                        <input type="text" placeholder="john Thoe" required>
+                        <input type="text" placeholder="john Thoe" required id="name">
                     </div>
                     <div class="inputBox">
                         <span>Е-Майл:</span>
-                        <input type="email" placeholder="smth@smth.com" required>
+                        <input type="email" placeholder="smth@smth.com" required id="email">
                     </div>
                     <div class="inputBox">
                         <span>Адрес:</span>
-                        <input type="text" placeholder="room - street - location" required>
+                        <input type="text" placeholder="room - street - location" required id="address">
                     </div>
                     <div class="inputBox">
                         <span>Град:</span>
-                        <input type="text" placeholder="Sofia" required>
+                        <input type="text" placeholder="Sofia" required id="city">
                     </div>
                     <div class="flex">
                         <div class="inputBox">
                             <span>Област:</span>
-                            <input type="text" placeholder="Sofia Oblast" required>
+                            <input type="text" placeholder="Sofia Oblast" required id="region">
                         </div>
                         <div class="inputBox">
                             <span>Пощенски код:</span>
-                            <input type="text" placeholder="123 321" required>
+                            <input type="text" placeholder="123 321" required id="zipcode">
                         </div>
                     </div>
                 </div>
@@ -71,24 +71,24 @@
                     <h3 class="title">Начин на плащане</h3>
                     <div class="inputBox">
                         <span>Име:</span>
-                        <input type="text" placeholder="john Thoe" required>
+                        <input type="text" placeholder="john Thoe" required id="cardname">
                     </div>
                     <div class="inputBox">
                         <span>Номер на картата:</span>
-                        <input type="text" placeholder="ХХХХ-ХХХХ-ХХХХ-ХХХХ" required>
+                        <input type="text" placeholder="ХХХХ-ХХХХ-ХХХХ-ХХХХ" required id="cardnumber">
                     </div>
                     <div class="inputBox">
                         <span>Месец на изтичане:</span>
-                        <input type="text" placeholder="January" required>
+                        <input type="text" placeholder="January" required id="cardexpmonth">
                     </div>
                     <div class="inputBox">
                         <span>Година на изтичане:</span>
-                        <input type="text" placeholder="2022" required>
+                        <input type="text" placeholder="2022" required id="cardexpyear">
                     </div>
                     <div class="flex">
                         <div class="inputBox">
                             <span>CVV:</span>
-                            <input type="text" placeholder="1144" required>
+                            <input type="text" placeholder="1144" required id="cardcvv">
                         </div>
                         <div class="inputBox">
                             <span>Карти:</span>
@@ -98,7 +98,31 @@
                 </div>
 
             </div>
-            <input type="submit" value="Завърши почърката" class="submit-btn">
+            <script>
+                function saveData() {
+                    fetch('http://127.0.0.1:8000/updateuser', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(
+                            {
+                                "ip": "127.0.0.1",
+                                "name": document.getElementById("name").value,
+                                "email": document.getElementById("email").value,
+                                "address": document.getElementById("address").value,
+                                "city": document.getElementById("city").value,
+                                "region": document.getElementById("region").value,
+                                "zipcode": document.getElementById("name").value,
+                                "cardname": document.getElementById("cardname").value,
+                                "cardnumber": document.getElementById("cardnumber").value,
+                                "cardexpmonth": document.getElementById("cardexpmonth").value,
+                                "cardexpyear": document.getElementById("cardexpyear").value,
+                                "cardcvv": document.getElementById("cardcvv").value
+                            }
+                        )
+                    })
+                }
+            </script>
+            <input type="submit" value="Завърши почърката" class="submit-btn" onclick="saveData();">
         </form>
         </div>
     </body>
