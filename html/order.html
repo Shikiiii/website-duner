@@ -9,6 +9,77 @@
     <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/fontawesome.min.css" integrity="sha384-zIaWifL2YFF1qaDiAo0JFgsmasocJ/rqu7LKYH8CoBEXqGbb9eO+Xi3s6fQhgFWM" crossorigin="anonymous">
+            <script>
+                function addDuner() {
+                    var element = document.getElementById("select_duner_size");
+                    var selected = element.selectedIndex;
+                    var size;
+                    if (selected == 0) {
+                        size = "S"
+                    }
+                    else if (selected == 1) {
+                        size = "M"
+                    }
+                    else if (selected == 2) {
+                        size = "L"
+                    }
+                    fetch("http://127.0.0.1:8000/addtocart", {
+                      method: "POST",
+                      headers: {'Content-Type': 'application/json'},
+                      body: JSON.stringify(
+                      {
+                        "ip": "127.0.0.1",
+                        "item": "duner" + size
+                      }
+                      )
+                    })                }
+                function addKebap() {
+                    var element = document.getElementById("select_kebap_size");
+                    var selected = element.selectedIndex;
+                    var size;
+                    if (selected == 0) {
+                        size = "M"
+                    }
+                    else if (selected == 1) {
+                        size = "L"
+                    }
+                    fetch("http://127.0.0.1:8000/addtocart", {
+                      method: "POST",
+                      headers: {'Content-Type': 'application/json'},
+                      body: JSON.stringify(
+                      {
+                        "ip": "127.0.0.1",
+                        "item": "kebap" + size
+                      }
+                      )
+                    })
+                }
+                function addLeshta() {
+                    fetch("http://127.0.0.1:8000/addtocart", {
+                      method: "POST",
+                      headers: {'Content-Type': 'application/json'},
+                      body: JSON.stringify(
+                      {
+                        "ip": "127.0.0.1",
+                        "item": "leshta"
+                      }
+                      )
+                    })
+                }
+                function addSalad() {
+                    fetch("http://127.0.0.1:8000/addtocart", {
+                      method: "POST",
+                      headers: {'Content-Type': 'application/json'},
+                      body: JSON.stringify(
+                      {
+                        "ip": "127.0.0.1",
+                        "item": "salad"
+                      }
+                      )
+                    })
+                }
+
+            </script>
 </head>
 <body>
 
@@ -16,7 +87,7 @@
     <div class="container">
     <div class="navbar">
         <div class="logo">
-        <img src="{{ url_for('static', path='images/logo.jpg') }}" width="150px">
+        <img src="{{ url_for('static', path='images/logo.jpg') }}" width="150px" style="border: 3px solid #000;">
      </div>
      <nav>
          <ul id="MenuItems">
@@ -45,14 +116,13 @@
                     <p>£3.00</p>
                 <h4>Голям Дюнер</h4>
                     <p>£4.00</p>
-                    <button class="cart">
+                    <button class="cart" id="addDuner" onclick="addDuner()">
                         <span>Add to Cart</span>
                     </button>
                     <div class="dropdown">
-                        <label class="input-group-text" for="inputGroupSelect01">Size</label>
-                        <select class="form-select" id="inputGroupSelect01">
-                          <option selected>Choose Size</option>
-                          <option value="1">S</option>
+                        <label class="input-group-text" for="select_duner_size">Size</label>
+                        <select class="form-select" id="select_duner_size">
+                          <option selected value="1">S</option>
                           <option value="2">M</option>
                           <option value="3">L</option>
                         </select>
@@ -63,18 +133,17 @@
                 <div class="rating"></div>
                 <img src="{{ url_for('static', path='images/kebap.jpg') }}">
                 <h4>Среден Кебап</h4>
-                    <p>£3.50</p>
+                    <p>£4.00</p>
                 <h4>Голям Кебап</h4>
-                    <p>£4.50</p>
-                    <button class="cart">
+                    <p>£5.00</p>
+                    <button class="cart" id="addKebap" onclick="addKebap()">
                         <span>Add to Cart</span>
                     </button>
                     <div class="dropdown">
-                        <label class="input-group-text" for="inputGroupSelect01">Size</label>
-                        <select class="form-select" id="inputGroupSelect01">
-                          <option selected>Choose Size</option>
-                          <option value="2">M</option>
-                          <option value="3">L</option>
+                        <label class="input-group-text" for="select_kebap_size">Size</label>
+                        <select class="form-select" id="select_kebap_size">
+                          <option selected value="1">M</option>
+                          <option value="2">L</option>
                         </select>
                       </div>
 
@@ -82,8 +151,8 @@
             <div class="col-4">
                 <img src="{{ url_for('static', path='images/leshta.jpg') }}">
                 <h4>Леща</h4>
-                    <p>£1.50</p>
-                    <button class="cart">
+                    <p>£2.00</p>
+                    <button class="cart" id="addLeshta" onclick="addLeshta()">
                         <span>Add to Cart</span>
                     </button>
 
@@ -93,7 +162,7 @@
                 <img src="{{ url_for('static', path='images/salad.jpg') }}">
                 <h4>Арабска салата</h4>
                     <p>£4.00</p>
-                    <button class="cart">
+                    <button class="cart" id="addSalad" onclick="addSalad()">
                         <span>Add to Cart</span>
                     </button>
 
