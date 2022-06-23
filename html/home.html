@@ -11,12 +11,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/fontawesome.min.css">
 </head>
 <body>
-
 <div class="header">
     <div class="container">
     <div class="navbar">
         <div class="logo">
-        <img src="{{ url_for('static', path='images/logo.jpg') }}" width="150px">
+        <img src="{{ url_for('static', path='images/logo.jpg') }}" width="150px" style="border: 3px solid #000;">
      </div>
      <nav>
          <ul id="MenuItems">
@@ -33,8 +32,8 @@
     </div>
     <div class="row">
         <div class="col-2">
-            <h1>Come and taste our meals!</h1>
-            <p>Елате и опитайте най-хубавите дюнери в България, <br>направени от висококачестени продукти!</p>
+            <h1 style="font-size: 55px;">Come and taste our meals!</h1>
+            <p style="font-size: 25px;">Елате и опитайте най-хубавите дюнери в България, <br>направени от висококачестени продукти!</p>
             <a href="http://127.0.0.1:8000/order" class="btn">Разгледай сега! &#8594;</a>
         </div>
         <div class="col-2">
@@ -126,7 +125,6 @@
                     </div>
                 </div>
             </div>
-            <script src="script.js"></script>
-        </body>
-        </html>
-
+            <script src="static/script.js"></script>
+</body>
+</html>
