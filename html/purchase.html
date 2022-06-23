@@ -16,7 +16,7 @@
     <div class="container_orderpage">
     <div class="navbar">
         <div class="logo">
-        <img src="{{ url_for('static', path='images/logo.jpg') }}" width="150px">
+        <img src="{{ url_for('static', path='images/logo.jpg') }}" width="150px" style="border: 3px solid #000;">
      </div>
      <nav>
          <ul id="MenuItems">
@@ -31,70 +31,168 @@
      <img src="{{ url_for('static', path='images/menu-icon-png-3-lines-11552728985kzvoymuey0.png') }}" class="menu-icon" onclick="menutoggle()">
     </div>
     <div class="small-container">
-      <table>
+      <table id="cartlistitems">
       <tr>
           <th>Продукт</th>
           <th>Количество</th>
           <th>Общо</th>
         </tr>
         <tr>
-          <td>
-            <div class="cart-info">
-              <img src="{{ url_for('static', path='images/roller.jpg') }}">
-              <div>
-                <p>Дюнер</p>
-                <small>Цена: £3.00</small>
-                <a href="">Remove</a>
-              </div>
-            </div>
-          </td>
-          <td><input type="number" value="1" min="1" ></td>
-          <td>£3.00</td>
-        </tr>
-        <tr>
-          <td>
-            <div class="cart-info">
-              <img src="{{ url_for('static', path='images/kebap.jpg') }}">
-              <div>
-                <p>Кебап</p>
-                <small>Цена: £3.50</small>
-                <a href="">Remove</a>
-              </div>
-            </div>
-          </td>
-          <td><input type="number" value="1" min="1" ></td>
-          <td>£3.50</td>
-        </tr>
-        <tr>
-          <td>
-            <div class="cart-info">
-              <img src="{{ url_for('static', path='images/leshta.jpg') }}">
-              <div>
-                <p>Леща</p>
-                <small>Цена: £2.00</small>
-                <a href="">Remove</a>
-              </div>
-            </div>
-          </td>
-          <td><input type="number" value="1" min="1" ></td>
-          <td>£2.00</td>
-        </tr>
+          <script>
+                var xhr = new XMLHttpRequest();
+                var url = "http://127.0.0.1:8000/getcartitems";
+                var json;
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.onreadystatechange = async function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        json = JSON.parse(xhr.responseText);
+                        await appear();
+                        console.log(json);
+                        await showprices();
+                        await disablebutton();
+                    }
+                };
+                var data = JSON.stringify({"ip":"127.0.0.1"});
+                xhr.send(data);
+                var totalprice = 0;
+                async function appear() {
+                    Object.keys(json).forEach(function(key) {
+                          var productname = "";
+                          var price = 0;
+                          var tr = document.createElement("tr")
+                          var td1 = document.createElement("td")
+                          var table = document.getElementById("cartlistitems")
+                          var div = document.createElement("div")
+                          div.classList.add("cart-info")
+                          if(key == "dunerS") {
+                            var img = document.createElement("img")
+                            img.src = "{{ url_for('static', path='images/roller.jpg') }}";
+                            productname = "Дюнер S";
+                            price = 2;
+                          }
+                          else if(key == "dunerM") {
+                            var img = document.createElement("img")
+                            img.src = "{{ url_for('static', path='images/roller.jpg') }}";
+                            productname = "Дюнер M";
+                            price = 3;
+                          }
+                          else if(key == "dunerL") {
+                            var img = document.createElement("img")
+                            img.src = "{{ url_for('static', path='images/roller.jpg') }}";
+                            productname = "Дюнер L";
+                            price = 4;
+                          }
+                          if(key == "kebapM") {
+                            var img = document.createElement("img")
+                            img.src = "{{ url_for('static', path='images/kebap.jpg') }}";
+                            productname = "Кебап M";
+                            price = 4;
+                          }
+                          if(key == "kebapL") {
+                            var img = document.createElement("img")
+                            img.src = "{{ url_for('static', path='images/kebap.jpg') }}";
+                            productname = "Кебап L";
+                            price = 5;
+                          }
+                          if(key == "leshta") {
+                            var img = document.createElement("img")
+                            img.src = "{{ url_for('static', path='images/leshta.jpg') }}";
+                            productname = "Леща";
+                            price = 2;
+                          }
+                          if(key == "salad") {
+                            var img = document.createElement("img")
+                            img.src = "{{ url_for('static', path='images/salad.jpg') }}";
+                            productname = "Арабска салата";
+                            price = 4;
+                          }
+                          totalprice = totalprice + (price*json[key]);
+                          var div2 = document.createElement("div")
+                          var p1 = document.createElement("p")
+                          p1.innerHTML = productname;
+                          var small = document.createElement("small")
+                          small.innerHTML = "Цена: £" + price + ".00";
+                          var a = document.createElement("a")
+                          a.innerHTML = "  Премахни";
+                          a.href = "";
+                          a.onclick = function() {
+                            fetch('http://127.0.0.1:8000/removefromcart', {
+                              method: 'POST',
+                              headers: {'Content-Type': 'application/json'},
+                              body: JSON.stringify(
+                              {
+                                "ip": "127.0.0.1",
+                                "item": key
+                              })
+                            })
+                          }
+                          var td2 = document.createElement("td")
+                          var input = document.createElement("input")
+                          input.type = "number";
+                          input.value = json[key];
+                          input.min = "1";
+                          input.id = "quantity";
+                          input.style = "width: 4em";
+                          input.onblur = function() {
+                            fetch('http://127.0.0.1:8000/updatecart', {
+                              method: 'POST',
+                              headers: {'Content-Type': 'application/json'},
+                              body: JSON.stringify(
+                              {
+                                "ip": "127.0.0.1",
+                                "item": key,
+                                "quantity": input.value
+                              })
+                            })
+                            location.reload();
+                          }
+                          var td3 = document.createElement("td")
+                          table.appendChild(tr)
+                          tr.appendChild(td1)
+                          tr.appendChild(td2)
+                          tr.appendChild(td3)
+                          td1.appendChild(div)
+                          div.appendChild(img)
+                          div.appendChild(div2)
+                          div2.appendChild(p1)
+                          div2.appendChild(small)
+                          div2.appendChild(a)
+                          td2.appendChild(input)
+                          td3.innerHTML = "£" + price*json[key] + ".00";
+                    })
+                }
+                async function disablebutton() {
+                    if (totalprice == 0) {
+                        var button = document.getElementById("continuebutton");
+                        button.disabled = true;
+                    }
+                }
+                async function showprices() {
+                    var price = document.getElementById("price")
+                    console.log(price)
+                    price.innerHTML = "£" + totalprice.toString() + ".00";
+                    var pricewithdelivery = document.getElementById("totalprice")
+                    console.log(pricewithdelivery)
+                    pricewithdelivery.innerHTML = "£" + (totalprice+5).toString() + ".00";
+                }
+          </script>
       </table>
 
       <div class="total-price">
 
         <table>
           <tr>
-            <td>Общо</td>
-            <td>£8.50</td>
+            <td>Цена</td>
+            <td id="price"></td>
           </tr>
           <tr>
             <td>Доставка</td>
-            <td>£2.00</td>
+            <td>£5.00</td>
           </tr>
           <tr>
             <td>Общо</td>
-            <td>£10.50</td>
+            <td id="totalprice"></td>
           </tr>
 
         </table>
@@ -102,7 +200,7 @@
 
       </div>
       <div class="Continue">
-        <a href="http://127.0.0.1:8000/information"><button class="btnn">Continue</button></a>
+        <a href="http://127.0.0.1:8000/information"><button class="btnn" id="continuebutton">Continue</button></a>
       </div>
       </div>
     </body>
