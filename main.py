@@ -3,8 +3,11 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
+from fastapi.responses import JSONResponse
+import managedb
 
 app = FastAPI()
+
 app.mount(
     "/static",
     StaticFiles(directory=Path(__file__).parent.parent.absolute()),
@@ -15,15 +18,11 @@ templates = Jinja2Templates(directory="html")
 
 @app.get("/")
 async def root(request: Request):
+    if not managedb.check_if_user_exists(request.client.host):
+        managedb.add_user(request.client.host)
     return templates.TemplateResponse(
         "home.html", {"request": request}
     )
-
-@app.get("/test")
-async def read_test(request: Request):
-    client_host = request.client
-    print(client_host)
-    return {"client_host": client_host}
 
 @app.get("/order")
 async def order(request: Request):
@@ -50,40 +49,59 @@ async def completed(request: Request):
     )
 
 # REQUESTS
-@app.post("/usercheckip")
-async def usercheckip(request: Request, ip: str):
-    """
-    Check user's ip information if it exists in the database upon visiting home page. If not, add to database.
-    :param request:
-    :param ip: String containing ip address.
-    """
-    pass
 
 @app.post("/addtocart")
-async def addtocart(request: Request, item: dict):
+async def addtocart(request: Request, info: dict):
     """
     Add an item to a user's cart.
     :param request:
-    :param item: Dict containing item information:
-    {
-        "IP": "ip",
-        "ITEM": "item"
-    }
+    :param info: Information
     """
-    pass
+
+    return JSONResponse(content=managedb.add_to_cart(info))
 
 @app.post("/removefromcart")
-async def removefromcart(request: Request, item: dict):
+async def removefromcart(request: Request, info: dict):
     """
     Remove an item from a user's cart.
     :param request:
-    :param item: Dict containing item information:
+    :param info: Dict containing item information:
     {
         "IP": "ip",
         "ITEM": "item"
     }
     """
-    pass
+    return JSONResponse(content=managedb.remove_from_cart(info))
+
+@app.post("/getcartitems")
+async def getcartitems(request: Request, ip: dict):
+    """
+    Add an item to a user's cart.
+    :param request:
+    :param ip: IP Address
+    """
+
+    return JSONResponse(content=managedb.get_cart_items(ip))
+
+@app.post("/updatecart")
+async def getcartitems(request: Request, info: dict):
+    """
+    Add an item to a user's cart.
+    :param request:
+    :param info: Information
+    """
+
+    return JSONResponse(content=managedb.update_cart(info))
+
+@app.post("/updateuser")
+async def updateuser(request: Request, info: dict):
+    """
+    Add an item to a user's cart.
+    :param request:
+    :param info: Information
+    """
+
+    return 200
 
 
 # 404 HANDLER
